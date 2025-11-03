@@ -1,4 +1,5 @@
 
+
 import * as React from 'react';
 // FIX: Corrected import statement for react-router-dom to resolve module export errors.
 import { Link } from 'react-router-dom';
@@ -9,20 +10,6 @@ const SocialIcon: React.FC<{ href: string; children: React.ReactNode }> = ({ hre
     {children}
   </a>
 );
-
-// Placeholder logos for OTAs
-const BookingLogo = () => (
-    <img src="/public/images/booking-logo.png" alt="Booking.com" className="h-6" />
-);
-
-const AgodaLogo = () => (
-    <img src="/public/images/agoda-logo.png" alt="Agoda" className="h-6" />
-);
-
-const ExpediaLogo = () => (
-    <img src="/public/images/expedia-logo.png" alt="Expedia" className="h-6" />
-);
-
 
 const Footer: React.FC = () => {
   const sortedHotels = [...hotelsData].sort((a, b) => a.name.localeCompare(b.name));
@@ -47,20 +34,6 @@ const Footer: React.FC = () => {
                 <SocialIcon href="https://www.instagram.com/kayjay_hotels/">
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049 1.064.218 1.791.465 2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 013.45 2.525c.636-.247 1.363-.416 2.427-.465C6.901 2.013 7.255 2 9.685 2h2.63zM12 4.878a7.122 7.122 0 100 14.244A7.122 7.122 0 0012 4.878zM12 16.5a4.5 4.5 0 110-9 4.5 4.5 0 010 9zm4.838-9.002a1.422 1.422 0 100 2.844 1.422 1.422 0 000-2.844z" clipRule="evenodd" /></svg>
                 </SocialIcon>
-                 <SocialIcon href="#">
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </SocialIcon>
-                 <SocialIcon href="#">
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                </SocialIcon>
-            </div>
-             <div className="mt-8">
-                <h4 className="text-sm font-semibold uppercase tracking-wider mb-3 text-gray-400">Find Us On</h4>
-                <div className="flex items-center space-x-6 text-gray-300">
-                    <div className="filter grayscale hover:grayscale-0 transition duration-300"><BookingLogo /></div>
-                    <div className="filter grayscale hover:grayscale-0 transition duration-300"><AgodaLogo /></div>
-                    <div className="filter grayscale hover:grayscale-0 transition duration-300"><ExpediaLogo /></div>
-                </div>
             </div>
           </div>
 
@@ -83,7 +56,6 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-gray-300">
               <li><Link to="/" className="hover:text-brand-primary transition-colors">Home</Link></li>
               <li><Link to="/about" className="hover:text-brand-primary transition-colors">About Us</Link></li>
-              <li><Link to="/careers" className="hover:text-brand-primary transition-colors">Careers</Link></li>
               <li><Link to="/sustainability" className="hover:text-brand-primary transition-colors">Sustainability</Link></li>
               <li><Link to="/contact" className="hover:text-brand-primary transition-colors">Contact Us</Link></li>
               <li><Link to="/faq" className="hover:text-brand-primary transition-colors">FAQ</Link></li>

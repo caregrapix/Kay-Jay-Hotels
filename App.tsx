@@ -1,4 +1,5 @@
 
+
 import * as React from 'react';
 // FIX: Upgraded react-router-dom from v5 to v6 syntax.
 // FIX: Corrected import statement for react-router-dom to resolve module export errors.
@@ -24,7 +25,7 @@ import { hotelsData } from './data/hotels';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import CategoryArchivePage from './pages/CategoryArchivePage';
-import CareersPage from './pages/CareersPage';
+import WhatsAppChatButton from './components/WhatsAppChatButton';
 
 // Add gtag type to window for Google Analytics
 declare global {
@@ -120,7 +121,6 @@ const App: React.FC = () => {
               <Route path="/properties" element={<PropertiesListPage />} />
               <Route path="/hotels/:slug" element={<PropertyPage />} />
               <Route path="/about" element={<AboutUsPage />} />
-              <Route path="/careers" element={<CareersPage />} />
               <Route path="/contact" element={<ContactUsPage />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/category/:slug" element={<CategoryArchivePage />} />
@@ -136,6 +136,7 @@ const App: React.FC = () => {
           </main>
           <Footer />
         </div>
+        <WhatsAppChatButton />
         <ScrollToTopButton />
       </HashRouter>
     </CurrencyProvider>

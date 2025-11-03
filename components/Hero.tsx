@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 
 const slides = [
@@ -62,6 +63,15 @@ const Hero: React.FC = () => {
         style={{ backgroundImage: `url('${image}')` }}
       />
       <div className="absolute top-0 left-0 w-full h-full bg-black/50"></div>
+
+      {/* Discount Banner */}
+      <div className="absolute top-4 right-4 md:top-8 md:right-8 z-20 text-center pointer-events-none">
+        <div className="bg-brand-primary/95 text-white w-28 h-28 md:w-36 md:h-36 rounded-full flex flex-col items-center justify-center p-2 shadow-xl transform -rotate-12">
+          <span className="text-3xl md:text-4xl font-extrabold leading-tight">15%</span>
+          <span className="font-semibold uppercase tracking-wide text-sm md:text-base">OFF</span>
+          <span className="text-xs md:text-sm leading-tight">On Card Payments</span>
+        </div>
+      </div>
 
       {/* Content */}
       <div key={currentSlide} className="relative z-10 p-6 animate-slide">

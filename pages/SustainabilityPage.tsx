@@ -1,4 +1,5 @@
 
+
 import * as React from 'react';
 import PageMetadata from '../components/PageMetadata';
 import AnimatedSection from '../components/AnimatedSection';
@@ -12,19 +13,12 @@ const SustainabilityPage: React.FC = () => {
         description="Learn about our commitment to sustainable and responsible tourism. Kayjay Hotels is dedicated to preserving Sri Lanka's natural beauty and supporting local communities."
       />
       <div className="bg-brand-light">
-        {/* Hero Section */}
-        <div className="relative bg-brand-dark text-white text-center py-32 px-6">
-          <div className="absolute inset-0">
-            <LazyImage 
-              src="/public/images/kay-jay-palms/garden.jpg" 
-              alt="Lush green gardens at a Kayjay Hotel" 
-              className="w-full h-full object-cover opacity-30" 
-            />
-          </div>
-          <div className="relative z-10">
+        {/* Title Section */}
+        <div className="bg-brand-gray py-20">
+          <div className="container mx-auto px-6 text-center">
             <AnimatedSection>
-              <h1 className="text-4xl md:text-6xl font-extrabold font-sans">Our Commitment to Sustainability</h1>
-              <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
+              <h1 className="text-4xl md:text-6xl font-extrabold font-sans text-brand-dark">Our Commitment to Sustainability</h1>
+              <p className="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
                 Preserving Paradise for Generations to Come
               </p>
             </AnimatedSection>

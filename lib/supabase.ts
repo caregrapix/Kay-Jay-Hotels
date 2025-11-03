@@ -39,17 +39,3 @@ export const saveInquirySubmission = async (data: InquirySubmission) => {
     console.log("Supabase is disabled. Inquiry submission not saved:", data);
     return Promise.resolve();
 };
-
-interface CareerApplication {
-    name: string;
-    email: string;
-    phone?: string;
-    position: string;
-    cover_letter: string;
-}
-
-export const saveCareerApplication = async (data: CareerApplication) => {
-    // Supabase is disabled. This function does nothing.
-    console.log("Supabase is disabled. Career application not saved:", data);
-    return Promise.resolve();
-};

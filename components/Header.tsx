@@ -1,4 +1,5 @@
 
+
 import * as React from 'react';
 // FIX: Corrected import statement for react-router-dom to resolve module export errors.
 import { Link, NavLink } from 'react-router-dom';
@@ -105,7 +106,6 @@ const Header: React.FC = () => {
               </li>
               {/* FIX: Updated NavLink to v6 syntax */}
               <li><NavLink to="/about" className={getNavLinkClass}>About Us</NavLink></li>
-              <li><NavLink to="/careers" className={getNavLinkClass}>Careers</NavLink></li>
               {/* FIX: Updated NavLink to v6 syntax */}
               <li><NavLink to="/contact" className={getNavLinkClass}>Contact Us</NavLink></li>
               <li><NavLink to="/blog" className={getNavLinkClass}>Blog</NavLink></li>
@@ -158,7 +158,6 @@ const Header: React.FC = () => {
               </li>
               {/* FIX: Updated NavLink to v6 syntax */}
               <li><NavLink to="/about" className={getNavLinkClass} onClick={() => setIsMenuOpen(false)}>About Us</NavLink></li>
-              <li><NavLink to="/careers" className={getNavLinkClass} onClick={() => setIsMenuOpen(false)}>Careers</NavLink></li>
               {/* FIX: Updated NavLink to v6 syntax */}
               <li><NavLink to="/contact" className={getNavLinkClass} onClick={() => setIsMenuOpen(false)}>Contact Us</NavLink></li>
               <li><NavLink to="/blog" className={getNavLinkClass} onClick={() => setIsMenuOpen(false)}>Blog</NavLink></li>

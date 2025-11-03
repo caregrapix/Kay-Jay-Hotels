@@ -1,4 +1,5 @@
 
+
 import * as React from 'react';
 import PageMetadata from '../components/PageMetadata';
 import AnimatedSection from '../components/AnimatedSection';
@@ -21,23 +22,16 @@ const AboutUsPage: React.FC = () => {
         jsonLd={pageSchema}
       />
       <div className="bg-brand-light">
-        {/* Hero Section */}
-        <div className="relative bg-brand-dark text-white text-center py-32 px-6">
-          <div className="absolute inset-0">
-            <LazyImage 
-              src="/public/images/about-hero.jpg" 
-              alt="Sri Lankan coastline" 
-              className="w-full h-full object-cover opacity-30" 
-            />
-          </div>
-          <div className="relative z-10">
-            <AnimatedSection>
-              <h1 className="text-4xl md:text-6xl font-extrabold font-sans">Our Story: Luxury in Every Detail</h1>
-              <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
-                Crafting Unforgettable Stays Since 2006
-              </p>
-            </AnimatedSection>
-          </div>
+        {/* Title Section */}
+        <div className="bg-brand-gray py-20">
+            <div className="container mx-auto px-6 text-center">
+                <AnimatedSection>
+                    <h1 className="text-4xl md:text-6xl font-extrabold font-sans text-brand-dark">Our Story: Luxury in Every Detail</h1>
+                    <p className="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                        Crafting Unforgettable Stays Since 2006
+                    </p>
+                </AnimatedSection>
+            </div>
         </div>
 
         {/* Main Content */}
