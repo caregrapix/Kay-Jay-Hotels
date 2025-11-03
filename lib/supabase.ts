@@ -1,19 +1,6 @@
-// This file configures the connection to Supabase and provides helper functions.
-
-// The original Supabase fetch calls were failing with a "Failed to fetch" network error,
-// likely due to an environment, CORS, or credential issue that cannot be resolved from the client-side code.
-// To fix the user-facing error and ensure the primary notification channel (EmailJS) continues to work,
-// the Supabase functions have been updated to simulate a successful submission.
-// The form data will be logged to the console for debugging.
-
-const simulateApiCall = async (data: any) => {
-    console.log("Simulating Supabase submission with data:", data);
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    // Simulate a successful response by resolving the promise
-    return Promise.resolve();
-};
-
+// This file previously configured a connection to Supabase.
+// Supabase is no longer used for data storage in this application.
+// These functions are kept to avoid breaking imports, but they do nothing.
 
 interface ContactSubmission {
     name: string;
@@ -24,7 +11,9 @@ interface ContactSubmission {
 }
 
 export const saveContactSubmission = async (data: ContactSubmission) => {
-    return simulateApiCall(data);
+    // Supabase is disabled. This function does nothing.
+    console.log("Supabase is disabled. Contact submission not saved:", data);
+    return Promise.resolve();
 };
 
 
@@ -46,7 +35,9 @@ interface InquirySubmission {
 }
 
 export const saveInquirySubmission = async (data: InquirySubmission) => {
-    return simulateApiCall(data);
+    // Supabase is disabled. This function does nothing.
+    console.log("Supabase is disabled. Inquiry submission not saved:", data);
+    return Promise.resolve();
 };
 
 interface CareerApplication {
@@ -58,5 +49,7 @@ interface CareerApplication {
 }
 
 export const saveCareerApplication = async (data: CareerApplication) => {
-    return simulateApiCall(data);
+    // Supabase is disabled. This function does nothing.
+    console.log("Supabase is disabled. Career application not saved:", data);
+    return Promise.resolve();
 };

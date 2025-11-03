@@ -1,22 +1,7 @@
 import * as React from 'react';
 import PageMetadata from '../components/PageMetadata';
 import AnimatedSection from '../components/AnimatedSection';
-import { saveContactSubmission } from '../lib/supabase';
 import LocationMap from '../components/LocationMap';
-
-// Add EmailJS type declaration
-declare global {
-  interface Window {
-    emailjs: {
-      send: (
-        serviceID: string,
-        templateID: string,
-        templateParams: Record<string, unknown>,
-        publicKey: string
-      ) => Promise<any>;
-    };
-  }
-}
 
 const ContactUsPage: React.FC = () => {
   const [formData, setFormData] = React.useState({
@@ -37,26 +22,22 @@ const ContactUsPage: React.FC = () => {
     const newErrors: Partial<Record<keyof typeof formData, string>> = {};
     const { name, email, phone, message } = formData;
 
-    // Name validation
     if (!name.trim()) {
       newErrors.name = 'Name is required.';
     } else if (name.trim().length < 2) {
       newErrors.name = 'Name must be at least 2 characters long.';
     }
 
-    // Email validation
     if (!email.trim()) {
       newErrors.email = 'Email is required.';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = 'Please enter a valid email address.';
     }
 
-    // Phone validation (optional, but validates if filled)
     if (phone.trim() && !/^[+]?[\d\s()-]{7,20}$/.test(phone)) {
         newErrors.phone = 'Please enter a valid phone number format.';
     }
 
-    // Message validation
     if (!message.trim()) {
       newErrors.message = 'Message is required.';
     } else if (message.trim().length < 10) {
@@ -89,30 +70,23 @@ const ContactUsPage: React.FC = () => {
     setErrors({});
 
     try {
-      // Step 1: Save to Supabase (primary, critical action)
-      await saveContactSubmission(formData);
+      const response = await fetch('/api/send-email.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          formType: 'contact', // Identifier for the PHP script
+        }),
+      });
 
-      // Step 2: Send email via EmailJS (secondary notification)
-      const serviceID = 'service_bi9iwvb';
-      const templateID = 'template_udm68ad';
-      const publicKey = 'mT_76Q8nVkBYvW123';
-      const templateParams = {
-        ...formData,
-        time: new Date().toLocaleString(),
-      };
+      const result = await response.json();
 
-      try {
-        await window.emailjs.send(serviceID, templateID, templateParams, publicKey);
-      } catch (emailError) {
-        // Log the email error but don't show a failure message to the user,
-        // as the primary data capture was successful.
-        console.warn(
-          'EmailJS submission failed, but data was saved to Supabase:',
-          emailError
-        );
+      if (!response.ok || result.status !== 'success') {
+        throw new Error(result.message || 'An unknown server error occurred.');
       }
 
-      // If we reach here, the Supabase submission was successful.
       setFormStatus('success');
       setStatusMessage(
         'Thank you for your message! We have received it and will get back to you shortly.'
@@ -125,11 +99,10 @@ const ContactUsPage: React.FC = () => {
         message: '',
       });
     } catch (error) {
-      console.error('Submission failed:', error);
+      console.error('Form submission failed:', error);
       setFormStatus('error');
-      const rawMessage =
-        error instanceof Error ? error.message : 'An unknown error occurred.';
-      setStatusMessage(`Submission failed: ${rawMessage}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      setStatusMessage(`Submission failed: ${errorMessage}. Please try again or contact us directly.`);
     }
   };
 

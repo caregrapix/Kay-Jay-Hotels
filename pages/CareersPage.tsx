@@ -1,23 +1,7 @@
-
 import * as React from 'react';
 import PageMetadata from '../components/PageMetadata';
 import AnimatedSection from '../components/AnimatedSection';
 import LazyImage from '../components/LazyImage';
-import { saveCareerApplication } from '../lib/supabase';
-
-// Add EmailJS type declaration
-declare global {
-  interface Window {
-    emailjs: {
-      send: (
-        serviceID: string,
-        templateID: string,
-        templateParams: Record<string, unknown>,
-        publicKey: string
-      ) => Promise<any>;
-    };
-  }
-}
 
 interface JobOpening {
   title: string;
@@ -102,17 +86,22 @@ const CareersPage: React.FC = () => {
         setErrors({});
 
         try {
-            await saveCareerApplication(formData);
-            
-            const serviceID = 'service_bi9iwvb';
-            const templateID = 'template_career_app';
-            const publicKey = 'mT_76Q8nVkBYvW123';
-            const templateParams = {
-                ...formData,
-                time: new Date().toLocaleString(),
-            };
+            const response = await fetch('/api/send-email.php', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  ...formData,
+                  formType: 'career', // Identifier for the PHP script
+                }),
+            });
 
-            await window.emailjs.send(serviceID, templateID, templateParams, publicKey);
+            const result = await response.json();
+
+            if (!response.ok || result.status !== 'success') {
+                throw new Error(result.message || 'An unknown server error occurred.');
+            }
             
             setFormStatus('success');
             setStatusMessage('Thank you for your application! We have received it and will get in touch if your qualifications match our needs.');
@@ -121,8 +110,8 @@ const CareersPage: React.FC = () => {
         } catch (error) {
             console.error('Application submission failed:', error);
             setFormStatus('error');
-            const rawMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-            setStatusMessage(`Submission failed: ${rawMessage}. Please try again.`);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            setStatusMessage(`Submission failed: ${errorMessage}. Please try again.`);
         }
     };
     

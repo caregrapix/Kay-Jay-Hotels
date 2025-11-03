@@ -4,18 +4,8 @@ import * as React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import PageMetadata from '../components/PageMetadata';
 import AnimatedSection from '../components/AnimatedSection';
-import { saveInquirySubmission } from '../lib/supabase';
 import WhatsAppButton from '../components/WhatsAppButton';
 import InquiryDisclaimer from '../components/InquiryDisclaimer';
-
-// Ensure emailjs is typed for window
-declare global {
-  interface Window {
-    emailjs: {
-      send: (serviceID: string, templateID: string, templateParams: Record<string, unknown>, publicKey: string) => Promise<any>;
-    };
-  }
-}
 
 const EmailInquiryPage: React.FC = () => {
   // FIX: Replaced useLocation and URLSearchParams with useSearchParams for v6 compatibility.
@@ -88,79 +78,46 @@ const EmailInquiryPage: React.FC = () => {
     setErrors({});
 
     try {
-        const dbPayload = {
-            ...formData,
-            hotel_name: inquiryData.hotelName,
-            room_name: inquiryData.roomName,
-            check_in: inquiryData.checkIn,
-            check_out: inquiryData.checkOut,
-            adults: parseInt(inquiryData.adults, 10),
-            children: parseInt(inquiryData.children, 10),
-            meal_plan: inquiryData.mealPlan,
-            is_custom_inquiry: inquiryData.isCustom,
-            payment_method: inquiryData.paymentMethod,
-            final_price: inquiryData.finalPrice,
-            submission_type: 'EMAIL' as const,
-        };
-        await saveInquirySubmission(dbPayload);
-
-        const serviceID = 'service_bi9iwvb';
-        const templateID = 'template_piuerfs';
-        const publicKey = 'mT_76Q8nVkBYvW123';
-        const emailTemplateParams = {
+        const payload = {
             ...formData,
             ...inquiryData,
             paymentMethod: getPaymentMethodLabel(inquiryData.paymentMethod),
             finalPrice: inquiryData.finalPrice,
             checkIn: inquiryData.checkIn || 'Not specified',
             checkOut: inquiryData.checkOut || 'Not specified',
-            time: new Date().toLocaleString(),
-            custom_inquiry_note: inquiryData.isCustom ? 'This is a custom inquiry as the number of guests exceeds the standard room capacity.' : ''
+            custom_inquiry_note: inquiryData.isCustom ? 'This is a custom inquiry as the number of guests exceeds the standard room capacity.' : '',
+            formType: 'inquiry', // Identifier for the PHP script
         };
 
-        try {
-            await window.emailjs.send(serviceID, templateID, emailTemplateParams, publicKey);
-        } catch (emailError) {
-            console.warn('EmailJS submission failed, but inquiry was saved to Supabase:', emailError);
+        const response = await fetch('/api/send-email.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || result.status !== 'success') {
+          throw new Error(result.message || 'An unknown server error occurred.');
         }
 
         setFormStatus('success');
         setStatusMessage('Thank you for your inquiry! Our team will get back to you shortly.');
 
     } catch (error) {
-        console.error('Submission failed:', error);
+        console.error('Email submission failed:', error);
         setFormStatus('error');
-        const rawMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-        setStatusMessage(`Submission failed: ${rawMessage}`);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        setStatusMessage(`Submission failed: ${errorMessage}. Please try again or contact us via WhatsApp.`);
     }
   };
 
-  const handleWhatsAppInquiry = async () => {
+  const handleWhatsAppInquiry = () => {
     if (!validateForm()) {
         return;
     }
-
-    const dbPayload = {
-        ...formData,
-        hotel_name: inquiryData.hotelName,
-        room_name: inquiryData.roomName,
-        check_in: inquiryData.checkIn,
-        check_out: inquiryData.checkOut,
-        adults: parseInt(inquiryData.adults, 10),
-        children: parseInt(inquiryData.children, 10),
-        meal_plan: inquiryData.mealPlan,
-        is_custom_inquiry: inquiryData.isCustom,
-        payment_method: inquiryData.paymentMethod,
-        final_price: inquiryData.finalPrice,
-        submission_type: 'WHATSAPP' as const,
-    };
-
-    try {
-        await saveInquirySubmission(dbPayload);
-    } catch (error) {
-        console.warn('Supabase submission failed for WhatsApp inquiry, but proceeding to open WhatsApp:', error);
-    }
-
     const message = generateWhatsAppMessage();
     const phoneNumber = "94742021777";
     const encodedMessage = encodeURIComponent(message);
