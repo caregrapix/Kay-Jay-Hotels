@@ -97,10 +97,21 @@ const CareersPage: React.FC = () => {
                 }),
             });
 
-            const result = await response.json();
-
-            if (!response.ok || result.status !== 'success') {
-                throw new Error(result.message || 'An unknown server error occurred.');
+            if (!response.ok) {
+                throw new Error(`Server responded with an error (${response.status}). Please check the backend script path and configuration.`);
+            }
+    
+            const responseText = await response.text();
+            let result;
+            try {
+                result = JSON.parse(responseText);
+            } catch (e) {
+                console.error('The server response was not valid JSON. This is likely a PHP error or misconfiguration.', { responseText });
+                throw new Error('The server returned an unexpected response. Please check the backend script for errors.');
+            }
+            
+            if (result.status !== 'success') {
+                throw new Error(result.message || 'The server indicated the submission could not be processed.');
             }
             
             setFormStatus('success');
@@ -110,8 +121,8 @@ const CareersPage: React.FC = () => {
         } catch (error) {
             console.error('Application submission failed:', error);
             setFormStatus('error');
-            const errorMessage = error instanceof Error ? error.message : String(error);
-            setStatusMessage(`Submission failed: ${errorMessage}. Please try again.`);
+            const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+            setStatusMessage(`Submission failed: ${errorMessage} Please try again.`);
         }
     };
     

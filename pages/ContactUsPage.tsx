@@ -81,10 +81,25 @@ const ContactUsPage: React.FC = () => {
         }),
       });
 
-      const result = await response.json();
+      // The server responded with an error status code (e.g., 404, 500)
+      if (!response.ok) {
+        throw new Error(`Server responded with an error (${response.status}). Please check the backend script path and configuration.`);
+      }
 
-      if (!response.ok || result.status !== 'success') {
-        throw new Error(result.message || 'An unknown server error occurred.');
+      // Try to parse the response as JSON.
+      const responseText = await response.text();
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (e) {
+        // This catches the "Unexpected token '<'" error when HTML is returned instead of JSON.
+        console.error('The server response was not valid JSON. This is likely a PHP error or misconfiguration.', { responseText });
+        throw new Error('The server returned an unexpected response. Please check the backend script for errors.');
+      }
+      
+      // The JSON response itself indicates failure.
+      if (result.status !== 'success') {
+        throw new Error(result.message || 'The server indicated the submission could not be processed.');
       }
 
       setFormStatus('success');
@@ -101,8 +116,8 @@ const ContactUsPage: React.FC = () => {
     } catch (error) {
       console.error('Form submission failed:', error);
       setFormStatus('error');
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      setStatusMessage(`Submission failed: ${errorMessage}. Please try again or contact us directly.`);
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+      setStatusMessage(`Submission failed: ${errorMessage} Please try again or contact us directly.`);
     }
   };
 
