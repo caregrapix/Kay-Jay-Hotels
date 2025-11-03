@@ -79,8 +79,8 @@ const EmailInquiryPage: React.FC = () => {
 
     try {
         const payload = {
-            ...formData,
             ...inquiryData,
+            ...formData,
             paymentMethod: getPaymentMethodLabel(inquiryData.paymentMethod),
             finalPrice: inquiryData.finalPrice,
             checkIn: inquiryData.checkIn || 'Not specified',
