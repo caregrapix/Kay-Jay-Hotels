@@ -93,9 +93,7 @@ const HomePage: React.FC = () => {
         <ExperienceHighlights />
       </AnimatedSection>
 
-      <AnimatedSection>
-        <FeaturedBlogSection />
-      </AnimatedSection>
+   
 
       {/* About Us Section */}
       <section className="py-20 bg-brand-gray">

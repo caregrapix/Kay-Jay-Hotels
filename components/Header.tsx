@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   const sortedHotels = [...hotelsData].sort((a, b) => a.name.localeCompare(b.name));
   const featuredHotel = hotelsData.find(h => h.slug === 'kay-jay-beach-house') || hotelsData[0];
 
-  const navLinkClasses = "block py-2 px-3 text-white rounded hover:bg-brand-primary md:hover:bg-transparent md:border-0 md:hover:text-brand-primary md:p-0 transition-colors";
+  const navLinkClasses = "block py-2 px-3 text-base text-white rounded hover:bg-brand-primary md:hover:bg-transparent md:border-0 md:hover:text-brand-primary md:p-0 transition-colors";
   const activeNavLinkClasses = "bg-brand-primary md:bg-transparent md:text-brand-primary";
 
   // FIX: Updated to v6 NavLink syntax
@@ -32,7 +32,7 @@ const Header: React.FC = () => {
             <img src="/public/images/logo.png" alt="Kayjay Hotels Logo" className="h-10" />
           </Link>
           <div className="hidden md:flex items-center space-x-6">
-            <ul className="flex items-center space-x-6 text-sm font-medium">
+            <ul className="flex items-center space-x-6 font-medium">
               {/* FIX: Updated NavLink to v6 syntax with `end` prop for home */}
               <li><NavLink to="/" className={getNavLinkClass} end>Home</NavLink></li>
               <li 
@@ -136,7 +136,7 @@ const Header: React.FC = () => {
               <li>
                 <button 
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full text-left flex justify-between items-center py-2 px-3 text-white rounded hover:bg-brand-primary"
+                  className="w-full text-left flex justify-between items-center py-2 px-3 text-base text-white rounded hover:bg-brand-primary"
                 >
                   Our Properties
                   <svg className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>

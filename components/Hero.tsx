@@ -66,10 +66,10 @@ const Hero: React.FC = () => {
 
       {/* Discount Banner */}
       <div className="absolute top-4 right-4 md:top-8 md:right-8 z-20 text-center pointer-events-none">
-        <div className="bg-brand-primary/95 text-white w-28 h-28 md:w-36 md:h-36 rounded-full flex flex-col items-center justify-center p-2 shadow-xl transform -rotate-12">
+        <div className="bg-brand-primary/95 text-white w-32 h-32 md:w-40 md:h-40 rounded-full flex flex-col items-center justify-center p-2 shadow-xl transform -rotate-12">
           <span className="text-3xl md:text-4xl font-extrabold leading-tight">15%</span>
           <span className="font-semibold uppercase tracking-wide text-sm md:text-base">OFF</span>
-          <span className="text-xs md:text-sm leading-tight">On Card Payments</span>
+          <span className="text-xs md:text-sm leading-tight px-1">On Commercial & HNB Credit Cards</span>
         </div>
       </div>
 
